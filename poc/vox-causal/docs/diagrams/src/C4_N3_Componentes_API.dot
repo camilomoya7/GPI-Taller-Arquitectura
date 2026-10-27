@@ -1,0 +1,57 @@
+digraph G {
+  graph [fontname="Inter", rankdir=TB, splines=spline, nodesep=0.5, ranksep=0.75,
+         pad=0.4, label=<<B>C4 Nivel 3 — Componentes — API de inferencia (camino caliente &lt; 200 ms)</B>>, labelloc=t, fontsize=26, bgcolor="white", newrank=true,
+         compound=true];
+  node [fontname="Inter", fontsize=15, margin="0.22,0.12"];
+  edge [fontname="Inter", fontsize=12, color="#555555", fontcolor="#2b2b2b", arrowsize=0.8, penwidth=1.2];
+  tel [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Plataforma de telefonía</B><BR/><FONT POINT-SIZE="13">WSS: start · audio PCM16 · context · stop</FONT>> ];
+  sup [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#0b4a63", penwidth=1.2, label=<<B>Supervisor</B>> ];
+  crm [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Consola del operador</B>> ];
+  subgraph cluster_c { label=<<B>Contenedor: API de inferencia</B><BR/><FONT POINT-SIZE="12">FastAPI · uvicorn · Python 3.12 · 1 vCPU · sin DoWhy/EconML/pandas</FONT>>; style="rounded,filled"; fillcolor="#f4f8fc"; color="#1f6fb2"; penwidth=2; fontsize=16;
+  borde [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>1 · Borde WebSocket / REST</B><BR/><FONT POINT-SIZE="13">main.py · ws_handler.py</FONT><BR/><FONT POINT-SIZE="13">token Bearer en tiempo constante</FONT><BR/><FONT POINT-SIZE="13">admisión 180 sesiones · cierres 1008 / 1013</FONT>> ];
+  priv [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>2 · Política de privacidad</B><BR/><FONT POINT-SIZE="13">privacy.py</FONT><BR/><FONT POINT-SIZE="13">solo canal cliente (EU AI Act 5.1.f)</FONT><BR/><FONT POINT-SIZE="13">seudónimo HMAC-SHA256</FONT>> ];
+  sess [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>3 · Sesión de streaming</B><BR/><FONT POINT-SIZE="13">stream.py</FONT><BR/><FONT POINT-SIZE="13">descarta el canal del operador</FONT><BR/><FONT POINT-SIZE="13">ventana 1000 ms cada 500 ms · coalescencia</FONT>> ];
+  feat [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#14b29f", penwidth=1.2, label=<<B>4 · Extractor prosódico</B><BR/><FONT POINT-SIZE="13">libs/voxfeatures (compartida con batch)</FONT><BR/><FONT POINT-SIZE="13">7 rasgos · p95 1,86 ms por ventana</FONT>> ];
+  scm [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>5 · Runtime causal</B><BR/><FONT POINT-SIZE="13">scm_runtime.py · solo NumPy</FONT><BR/><FONT POINT-SIZE="13">estrés · riesgo · causa raíz por ATE</FONT><BR/><FONT POINT-SIZE="13">estrés no explicado · p95 0,09 ms</FONT>> ];
+  store [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>6 · Almacén del modelo</B><BR/><FONT POINT-SIZE="13">model_store.py</FONT><BR/><FONT POINT-SIZE="13">verifica SHA-256 y esquema</FONT><BR/><FONT POINT-SIZE="13">modo estricto / degradado</FONT>> ];
+  pub [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>7 · Publicador de eventos</B><BR/><FONT POINT-SIZE="13">events.py</FONT><BR/><FONT POINT-SIZE="13">no bloqueante · timeout 3 s</FONT><BR/><FONT POINT-SIZE="13">outbox de respaldo</FONT>> ];
+  sas [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>8 · Emisor de SAS</B><BR/><FONT POINT-SIZE="13">sas.py · User Delegation</FONT><BR/><FONT POINT-SIZE="13">solo lectura · spr=https · 5 min</FONT><BR/><FONT POINT-SIZE="13">clave de delegación en caché</FONT>> ];
+  tlm [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>9 · Telemetría y auditoría</B><BR/><FONT POINT-SIZE="13">telemetry.py</FONT><BR/><FONT POINT-SIZE="13">p50 / p95 / p99 por etapa</FONT><BR/><FONT POINT-SIZE="13">model_loaded · sas_issued · channel_rejected</FONT>> ];
+    { rank=same; priv; sess; }
+    { rank=same; feat; scm; store; }
+    { rank=same; pub; sas; tlm; }
+  }
+  model [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>model.json + SHA-256</B><BR/><FONT POINT-SIZE="13">dentro de la imagen</FONT><BR/><FONT POINT-SIZE="13">único contrato con el batch</FONT>> ];
+  sb [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>Service Bus</B><BR/><FONT POINT-SIZE="13">cola call-closed</FONT>> ];
+  blob [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>Blob recordings</B>> ];
+  entra [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Microsoft Entra ID</B>> ];
+  law [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Log Analytics</B>> ];
+  { rank=same; tel; sup; crm; }
+  { rank=same; sb; blob; entra; law; }
+  tel -> borde [style=solid, label=<WSS · TLS 1.2+> ];
+  sup -> borde [style=solid, label=<HTTPS> ];
+  borde -> crm [style=solid, label=<inference JSON<BR/>cada 500 ms> , constraint=false];
+  borde -> priv [style=solid, label=<start> ];
+  priv -> sess [style=solid, label=<canal válido> ];
+  sess -> feat [style=solid, label=<ventana de audio> ];
+  feat -> scm [style=solid, label=<rasgos> ];
+  scm -> store [style=solid, label=<efectos causales<BR/>y pesos> , dir=back];
+  model -> store [style=solid, label=<carga al iniciar> , constraint=false];
+  scm -> borde [style=solid, label=<diagnóstico> , constraint=false];
+  borde -> pub [style=solid, label=<al cerrar la sesión> ];
+  borde -> sas [style=solid, label=<acceso a grabación> ];
+  borde -> tlm [style=dotted, label=<tiempos por etapa> ];
+  pub -> sb [style=solid, label=<AMQP · TLS · Sender> ];
+  sas -> entra [style=solid, label=<clave de delegación> ];
+  sas -> blob [style=dashed, label=<URL firmada> ];
+  tlm -> law [style=solid, label=<stdout JSON> ];
+  scm -> pub [style=invis ];
+  store -> model [style=invis ];
+  subgraph cluster_legend { label=<<B>Leyenda</B>>; fontsize=14; color="#bbbbbb"; style="rounded";
+    lg0 [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#888888", fontsize=12, label="Componente"];
+    lg1 [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#888888", fontsize=12, label="Librería compartida"];
+    lg2 [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#888888", fontsize=12, label="Externo al contenedor"];
+    lg3 [shape=box, style="rounded,filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#888888", fontsize=12, label="Almacén / artefacto"];
+    lg0 -> lg1 -> lg2 -> lg3 [style=invis];
+  }
+}

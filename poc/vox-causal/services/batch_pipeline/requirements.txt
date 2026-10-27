@@ -1,0 +1,14 @@
+# Camino frío: stack de inferencia causal y entrenamiento.
+dowhy==0.14
+econml==0.17.0
+networkx==3.4.2
+pandas==3.1.0
+scikit-learn==1.9.1
+scipy==1.15.3
+numpy==2.4.6
+azure-identity==1.27.0
+azure-storage-blob==12.31.0
+azure-servicebus==7.15.0
+openai==3.40.0
+# Solo para el job de benchmark en la región (cliente WebSocket que simula la telefonía).
+websockets==17.3

@@ -1,0 +1,138 @@
+{
+  "model_name": "vox-causal-scm",
+  "version": "2026.10.27-183551",
+  "dataset": {
+    "n": 50000,
+    "seed": 7,
+    "replicas": 5
+  },
+  "ate_error_max": 0.05,
+  "treatments": {
+    "long_wait": {
+      "backdoor_set": [
+        "repeat_contact",
+        "tenure_years"
+      ],
+      "naive_correlational": 0.1786891416925671,
+      "linear_regression": 0.1272022022260808,
+      "linear_dml": 0.12466023432752234,
+      "ci95_linear": [
+        0.11811115701589547,
+        0.13804503635095805
+      ],
+      "refutations": {
+        "placebo_treatment": {
+          "new_effect": 0.0007337021587420333,
+          "passed": true,
+          "criterio": "el efecto con tratamiento permutado debe ser ≈ 0"
+        },
+        "random_common_cause": {
+          "new_effect": 0.1271925032998602,
+          "passed": true,
+          "criterio": "agregar un confusor aleatorio no debe mover la estimación"
+        },
+        "data_subset": {
+          "new_effect": 0.12708022184345527,
+          "passed": true,
+          "criterio": "la estimación debe ser estable en subconjuntos del 80%"
+        }
+      },
+      "true_ate": 0.12244099433637477,
+      "error_linear": 0.0047612078897060345,
+      "error_dml": 0.0022192399911475647,
+      "error_naive": 0.05624814735619234,
+      "gate_passed": true,
+      "error_dml_replicas": {
+        "n": 5,
+        "mean": 0.002871316745799221,
+        "max": 0.004895467248599336
+      }
+    },
+    "multi_transfer": {
+      "backdoor_set": [
+        "repeat_contact"
+      ],
+      "naive_correlational": 0.13750589079536446,
+      "linear_regression": 0.1254124058345208,
+      "linear_dml": 0.12591835274554378,
+      "ci95_linear": [
+        0.11712535075154812,
+        0.13463318408942715
+      ],
+      "refutations": {
+        "placebo_treatment": {
+          "new_effect": -0.0005030575594179576,
+          "passed": true,
+          "criterio": "el efecto con tratamiento permutado debe ser ≈ 0"
+        },
+        "random_common_cause": {
+          "new_effect": 0.12541529553607272,
+          "passed": true,
+          "criterio": "agregar un confusor aleatorio no debe mover la estimación"
+        },
+        "data_subset": {
+          "new_effect": 0.1252307319303781,
+          "passed": true,
+          "criterio": "la estimación debe ser estable en subconjuntos del 80%"
+        }
+      },
+      "true_ate": 0.12994800921778316,
+      "error_linear": 0.0045356033832623655,
+      "error_dml": 0.004029656472239379,
+      "error_naive": 0.007557881577581305,
+      "gate_passed": true,
+      "error_dml_replicas": {
+        "n": 5,
+        "mean": 0.0017655999779665032,
+        "max": 0.004029656472239379
+      }
+    },
+    "billing_error": {
+      "backdoor_set": [
+        "tenure_years"
+      ],
+      "naive_correlational": 0.10577707233336758,
+      "linear_regression": 0.13968748132457698,
+      "linear_dml": 0.1367827418344298,
+      "ci95_linear": [
+        0.13026692361018327,
+        0.1484030432272569
+      ],
+      "refutations": {
+        "placebo_treatment": {
+          "new_effect": 0.0008286732145773246,
+          "passed": true,
+          "criterio": "el efecto con tratamiento permutado debe ser ≈ 0"
+        },
+        "random_common_cause": {
+          "new_effect": 0.13968461003374197,
+          "passed": true,
+          "criterio": "agregar un confusor aleatorio no debe mover la estimación"
+        },
+        "data_subset": {
+          "new_effect": 0.13921316850105986,
+          "passed": true,
+          "criterio": "la estimación debe ser estable en subconjuntos del 80%"
+        }
+      },
+      "true_ate": 0.13740787319701336,
+      "error_linear": 0.002279608127563615,
+      "error_dml": 0.0006251313625835753,
+      "error_naive": 0.03163080086364578,
+      "gate_passed": true,
+      "error_dml_replicas": {
+        "n": 5,
+        "mean": 0.0039014710754084634,
+        "max": 0.007625220669234378
+      }
+    }
+  },
+  "stress_calibration": {
+    "mae": 0.0408,
+    "r2": 0.969,
+    "n_train": 800,
+    "n_test": 400
+  },
+  "quality_gate_passed": true,
+  "duration_s": 507.7
+}

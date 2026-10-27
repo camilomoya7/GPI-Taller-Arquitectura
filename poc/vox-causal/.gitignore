@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+var/
+registry/
+.deploy.env
+bench-azure.json
+*.wav
+build/
+*.egg-info/
+erv/report/*.docx
+erv/report/*.pdf

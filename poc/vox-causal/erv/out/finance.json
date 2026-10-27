@@ -1,0 +1,309 @@
+{
+  "currency": "GBP",
+  "usd_per_gbp": 1.33,
+  "horizon_months": 36,
+  "dev_months": 3,
+  "sessions_per_replica_measured": 180,
+  "rate_gbp_h": 76.67,
+  "sources": {
+    "fx": "GBP/USD 1,33 (CoinCodex, oct-2026)",
+    "rate": "Tarifa mediana de contratos de Machine Learning en UK £575/día (IT Jobs Watch, 6 meses a oct-2026); jornada 7,5 h",
+    "wacc": "WACC sector tecnología 11,2 % (PwC Cost of Capital, feb-2026)",
+    "aca": "Container Apps consumo: US$0,000024/vCPU-s y US$0,000003/GiB-s activos (DevZero, lista de precios Azure, sep-2026)",
+    "apim": "API Management Standard v2 US$700/mes; admite WebSocket (digitalapi.ai, oct-2026; Microsoft Learn)",
+    "sb": "Service Bus Premium 1 MU ≈ US$677/mes, requerido para Private Endpoints (CloudToolStack; verificar en calculadora)",
+    "aoai": "Azure OpenAI GPT-4o mini US$0,15 / US$0,60 por millón de tokens de entrada / salida (oct-2026)",
+    "blob": "Blob Storage Hot LRS US$0,018/GB-mes; escrituras US$0,065 por 10.000 (nOps, may-2026)",
+    "la": "Log Analytics US$2,30/GB, 5 GB/mes gratis (ManageEngine, oct-2026)",
+    "seat_price": "Funciones de IA para contact center US$75–155 por agente/mes (Bright Pattern, feb-2026); base £60 ≈ US$80",
+    "agent_cost": "Sueldo base agente de call center UK £18.896/año (PayScale) + 30 % de cargas laborales (supuesto)",
+    "churn": "Churn B2B enterprise ≈ 11–22 % anual (koji.so, 2026)",
+    "aht": "Copilot for Service redujo el AHT en 12 % (Microsoft vía CX Today, 2023)"
+  },
+  "scenarios": [
+    {
+      "scenario": "Pesimista",
+      "params": {
+        "installed_seats": 5000,
+        "adoption": 0.2,
+        "ramp_months": 18,
+        "base_price_gbp": 45.0,
+        "premium_pct": 0.2,
+        "retention_pp": 0.0,
+        "calls_per_seat_month": 1000,
+        "minutes_per_call": 5.0,
+        "peak_concurrency": 0.6,
+        "opex_factor": 1.3,
+        "capex_factor": 1.25,
+        "wacc": 0.112,
+        "maintenance_h_month": 24
+      },
+      "capex_gbp": 84333.32875,
+      "npv_gbp": -22323.88030947186,
+      "irr_annual": -0.027487353702544626,
+      "payback_month": null,
+      "discounted_payback_month": null,
+      "payback_from_launch_months": null,
+      "bc_ratio": 0.8892452230164216,
+      "pv_benefits": 179237.45110634444,
+      "pv_costs": 201561.3314158163,
+      "steady_state": {
+        "seats": 1000.0,
+        "replicas": 5,
+        "opex_month": 4413.421022556391,
+        "cloud_month": 2021.3170225563913,
+        "revenue_month": 9000.0,
+        "items": {
+          "api_compute": 385.30827067669173,
+          "batch_compute": 15.56363909774436,
+          "azure_openai": 161.2781954887218,
+          "audio_storage": 48.57894736842105,
+          "log_analytics": 13.488721804511277,
+          "apim": 684.2105263157895,
+          "service_bus": 662.1593984962407,
+          "otros_azure": 50.72932330827068,
+          "mantenimiento_mlops": 2392.104
+        }
+      },
+      "years": [
+        {
+          "year": 1,
+          "revenue": 22500.0,
+          "retention": 0.0,
+          "capex": 84333.32875,
+          "opex": 36569.68694736842,
+          "net": -98403.01569736842
+        },
+        {
+          "year": 2,
+          "revenue": 90000.0,
+          "retention": 0.0,
+          "capex": 0.0,
+          "opex": 51920.34851127819,
+          "net": 38079.65148872181
+        },
+        {
+          "year": 3,
+          "revenue": 108000.0,
+          "retention": 0.0,
+          "capex": 0.0,
+          "opex": 52961.05227067669,
+          "net": 55038.94772932331
+        }
+      ]
+    },
+    {
+      "scenario": "Base",
+      "params": {
+        "installed_seats": 5000,
+        "adoption": 0.4,
+        "ramp_months": 12,
+        "base_price_gbp": 60.0,
+        "premium_pct": 0.2,
+        "retention_pp": 0.0,
+        "calls_per_seat_month": 1000,
+        "minutes_per_call": 5.0,
+        "peak_concurrency": 0.6,
+        "opex_factor": 1.0,
+        "capex_factor": 1.0,
+        "wacc": 0.112,
+        "maintenance_h_month": 24
+      },
+      "capex_gbp": 67466.663,
+      "npv_gbp": 375780.02971060196,
+      "irr_annual": 3.1421117676929624,
+      "payback_month": 13,
+      "discounted_payback_month": 13,
+      "payback_from_launch_months": 10,
+      "bc_ratio": 3.258303021663609,
+      "pv_benefits": 542179.3242719574,
+      "pv_costs": 166399.29456135546,
+      "steady_state": {
+        "seats": 2000.0,
+        "replicas": 8,
+        "opex_month": 3735.931729323308,
+        "cloud_month": 1895.8517293233083,
+        "revenue_month": 24000.0,
+        "items": {
+          "api_compute": 474.22556390977445,
+          "batch_compute": 11.97203007518797,
+          "azure_openai": 248.12030075187968,
+          "audio_storage": 74.73684210526315,
+          "log_analytics": 12.105263157894735,
+          "apim": 526.3157894736842,
+          "service_bus": 509.35338345864665,
+          "otros_azure": 39.02255639097744,
+          "mantenimiento_mlops": 1840.08
+        }
+      },
+      "years": [
+        {
+          "year": 1,
+          "revenue": 90000.0,
+          "retention": 0.0,
+          "capex": 67466.663,
+          "opex": 29894.76902255639,
+          "net": -7361.4320225563915
+        },
+        {
+          "year": 2,
+          "revenue": 282000.0,
+          "retention": 0.0,
+          "capex": 0.0,
+          "opex": 44690.323609022555,
+          "net": 237309.67639097746
+        },
+        {
+          "year": 3,
+          "revenue": 288000.0,
+          "retention": 0.0,
+          "capex": 0.0,
+          "opex": 44831.1807518797,
+          "net": 243168.8192481203
+        }
+      ]
+    },
+    {
+      "scenario": "Optimista",
+      "params": {
+        "installed_seats": 5000,
+        "adoption": 0.6,
+        "ramp_months": 9,
+        "base_price_gbp": 75.0,
+        "premium_pct": 0.2,
+        "retention_pp": 0.02,
+        "calls_per_seat_month": 1000,
+        "minutes_per_call": 5.0,
+        "peak_concurrency": 0.6,
+        "opex_factor": 1.0,
+        "capex_factor": 1.0,
+        "wacc": 0.112,
+        "maintenance_h_month": 24
+      },
+      "capex_gbp": 67466.663,
+      "npv_gbp": 999746.0955037724,
+      "irr_annual": 11.319310799629097,
+      "payback_month": 9,
+      "discounted_payback_month": 9,
+      "payback_from_launch_months": 6,
+      "bc_ratio": 6.692685544432157,
+      "pv_benefits": 1175365.5088194427,
+      "pv_costs": 175619.41331567027,
+      "steady_state": {
+        "seats": 3000.0,
+        "replicas": 11,
+        "opex_month": 4076.9242105263156,
+        "cloud_month": 2236.8442105263157,
+        "revenue_month": 45000.0,
+        "items": {
+          "api_compute": 652.0601503759398,
+          "batch_compute": 11.97203007518797,
+          "azure_openai": 372.18045112781954,
+          "audio_storage": 112.10526315789473,
+          "log_analytics": 13.834586466165412,
+          "apim": 526.3157894736842,
+          "service_bus": 509.35338345864665,
+          "otros_azure": 39.02255639097744,
+          "mantenimiento_mlops": 1840.08
+        }
+      },
+      "years": [
+        {
+          "year": 1,
+          "revenue": 225000.0,
+          "retention": 11875.0,
+          "capex": 67466.663,
+          "opex": 32600.40812030075,
+          "net": 136807.92887969923
+        },
+        {
+          "year": 2,
+          "revenue": 540000.0,
+          "retention": 52875.0,
+          "capex": 0.0,
+          "opex": 48923.09052631579,
+          "net": 543951.9094736842
+        },
+        {
+          "year": 3,
+          "revenue": 540000.0,
+          "retention": 54000.0,
+          "capex": 0.0,
+          "opex": 48923.09052631579,
+          "net": 545076.9094736842
+        }
+      ]
+    }
+  ],
+  "tornado": [
+    {
+      "label": "CAPEX (+50 % ↔ −10 %)",
+      "low": 342596.289106845,
+      "high": 382416.77783135336,
+      "base": 375780.02971060196,
+      "swing": 39820.48872450838
+    },
+    {
+      "label": "OPEX (+30 % ↔ −20 %)",
+      "low": 345770.4857044495,
+      "high": 395786.3923813702,
+      "base": 375780.02971060196,
+      "swing": 50015.90667692071
+    },
+    {
+      "label": "WACC (15 % ↔ 8 %)",
+      "low": 349300.28510677494,
+      "high": 400380.9406765888,
+      "base": 375780.02971060196,
+      "swing": 51080.655569813855
+    },
+    {
+      "label": "Meses de rampa (18 ↔ 6)",
+      "low": 313446.655082932,
+      "high": 440283.10725380597,
+      "base": 375780.02971060196,
+      "swing": 126836.45217087399
+    },
+    {
+      "label": "Precio base por puesto (£45 ↔ £75)",
+      "low": 240235.19864261258,
+      "high": 511324.8607785913,
+      "base": 375780.02971060196,
+      "swing": 271089.6621359787
+    },
+    {
+      "label": "Adopción del módulo (20 % ↔ 60 %)",
+      "low": 112475.08202067533,
+      "high": 639087.8965064497,
+      "base": 375780.02971060196,
+      "swing": 526612.8144857744
+    }
+  ],
+  "breakeven_adoption": 0.11399507502656547,
+  "breakeven_seats": 569.9753751328274,
+  "customer_value": {
+    "agent_cost_month": 2047.0666666666666,
+    "saving_15": 307.06,
+    "saving_12": 245.648,
+    "premium_month": 12.0,
+    "value_to_price_15": 25.588333333333335,
+    "value_to_price_12": 20.470666666666666
+  },
+  "kpi_capacity_opex": {
+    "replicas": 10,
+    "calls": 2500000.0,
+    "cloud_gbp": 2095.987067669173,
+    "items": {
+      "api_compute": 592.781954887218,
+      "batch_compute": 11.97203007518797,
+      "azure_openai": 310.1503759398496,
+      "audio_storage": 93.42105263157893,
+      "log_analytics": 12.969924812030074,
+      "apim": 526.3157894736842,
+      "service_bus": 509.35338345864665,
+      "otros_azure": 39.02255639097744,
+      "mantenimiento_mlops": 1840.08
+    },
+    "total": 3936.067067669173
+  }
+}

@@ -1,0 +1,41 @@
+[project]
+name = "vox-causal-poc"
+version = "1.0.0"
+description = "Prueba de concepto de Vox-Causal AI para Alloxentric SpA (GPI 2026-II)"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["libs/voxfeatures", "services/inference_api", "services/batch_pipeline"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+filterwarnings = ["ignore::DeprecationWarning", "ignore::FutureWarning", "ignore::SyntaxWarning", "ignore::UserWarning"]
+markers = ["slow: pruebas que entrenan modelos (segundos a minutos)"]
+
+[tool.coverage.run]
+source = ["services/inference_api/app", "services/batch_pipeline/pipeline", "libs/voxfeatures/voxfeatures"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+exclude_also = ["if __name__ == .__main__.:", "raise SystemExit"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "C90"]
+ignore = ["S101", "S311", "B008"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 15
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B"]
+"bench/**" = ["S"]
+"tools/**" = ["S"]
+"tools/architecture_claims.py" = ["S", "E501"]
+"tools/build_diagrams.py" = ["S", "E501"]   # etiquetas de diagramas (texto)
+"tools/render_pipeline.py" = ["S", "E501"]  # plantilla HTML del diagrama
+"erv/**" = ["S", "E501"]                     # scripts de análisis y textos del informe

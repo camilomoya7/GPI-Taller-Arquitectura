@@ -1,0 +1,31 @@
+# Ejecución local con Docker (alternativa a tools/run_api_local.sh).
+#   docker compose up --build api          → API en http://localhost:8000
+#   docker compose run --rm worker         → procesa los eventos emitidos por la API
+# En local, el volumen "outbox" EMULA a Azure Service Bus (cola de una sola vía API → batch).
+services:
+  api:
+    build: { context: ., dockerfile: services/inference_api/Dockerfile }
+    ports: ["8000:8000"]
+    environment:
+      MAX_SESSIONS: "180"
+      OUTBOX_PATH: /srv/var/outbox/events.jsonl
+    volumes: ["outbox:/srv/var/outbox"]
+    cpus: 1.0
+    networks: [rt]
+
+  worker:
+    build: { context: ., dockerfile: services/batch_pipeline/Dockerfile }
+    environment:
+      JOB_MODE: worker
+      OUTBOX_PATH: /srv/var/outbox/events.jsonl
+      AUDIT_PATH: /srv/var/audit/explanations.jsonl
+    volumes: ["outbox:/srv/var/outbox"]
+    networks: [batch]
+    profiles: [batch]
+
+volumes:
+  outbox: {}
+
+networks:   # redes distintas: el worker no puede abrir conexiones hacia la API
+  rt: {}
+  batch: {}

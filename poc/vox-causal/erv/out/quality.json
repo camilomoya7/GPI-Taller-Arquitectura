@@ -1,0 +1,11 @@
+{
+  "tests": 114,
+  "failures": 0,
+  "errors": 0,
+  "coverage_pct": 95.9,
+  "cc_avg": 2.66,
+  "cc_max": 12,
+  "cc_max_fn": "run",
+  "cc_max_rank": "C",
+  "ruff_findings": 0
+}

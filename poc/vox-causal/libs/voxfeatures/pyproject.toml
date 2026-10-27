@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "voxfeatures"
+version = "1.0.0"
+description = "Rasgos prosódicos compartidos (camino caliente y camino frío) de Vox-Causal AI"
+requires-python = ">=3.12"
+dependencies = ["numpy>=1.26"]
+
+[tool.setuptools]
+packages = ["voxfeatures"]

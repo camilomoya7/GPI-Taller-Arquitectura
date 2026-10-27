@@ -1,0 +1,74 @@
+[
+  {
+    "streams": 100,
+    "seconds_audio_per_call": 20,
+    "inferences": 3900,
+    "p50_ms": 3.44,
+    "p95_ms": 8.95,
+    "p99_ms": 14.5,
+    "max_ms": 23.52,
+    "pct_under_200ms": 100.0,
+    "errors": {},
+    "wall_s": 21.0
+  },
+  {
+    "streams": 200,
+    "seconds_audio_per_call": 20,
+    "inferences": 7800,
+    "p50_ms": 8.14,
+    "p95_ms": 43.24,
+    "p99_ms": 65.52,
+    "max_ms": 98.33,
+    "pct_under_200ms": 100.0,
+    "errors": {},
+    "wall_s": 22.0
+  },
+  {
+    "streams": 300,
+    "seconds_audio_per_call": 20,
+    "inferences": 11700,
+    "p50_ms": 1290.0,
+    "p95_ms": 4032.36,
+    "p99_ms": 4991.63,
+    "max_ms": 5806.61,
+    "pct_under_200ms": 14.87,
+    "errors": {},
+    "wall_s": 25.4
+  },
+  {
+    "streams": 400,
+    "seconds_audio_per_call": 20,
+    "inferences": 15600,
+    "p50_ms": 540.53,
+    "p95_ms": 1695.59,
+    "p99_ms": 2025.94,
+    "max_ms": 2443.87,
+    "pct_under_200ms": 37.49,
+    "errors": {},
+    "wall_s": 43.2
+  },
+  {
+    "streams": 500,
+    "seconds_audio_per_call": 20,
+    "inferences": 19500,
+    "p50_ms": 600.54,
+    "p95_ms": 4064.93,
+    "p99_ms": 5081.84,
+    "max_ms": 6077.38,
+    "pct_under_200ms": 37.35,
+    "errors": {},
+    "wall_s": 46.0
+  },
+  {
+    "streams": 600,
+    "seconds_audio_per_call": 20,
+    "inferences": 23400,
+    "p50_ms": 1387.22,
+    "p95_ms": 6270.39,
+    "p99_ms": 7667.94,
+    "max_ms": 9478.72,
+    "pct_under_200ms": 7.17,
+    "errors": {},
+    "wall_s": 50.4
+  }
+]

@@ -1,0 +1,56 @@
+digraph G {
+  graph [fontname="Inter", rankdir=TB, splines=spline, nodesep=0.55, ranksep=0.85,
+         pad=0.4, label=<<B>C4 Nivel 2 — Contenedores — Vox-Causal AI · dos zonas aisladas (restricción 2)</B>>, labelloc=t, fontsize=26, bgcolor="white", newrank=true,
+         compound=true];
+  node [fontname="Inter", fontsize=15, margin="0.22,0.12"];
+  edge [fontname="Inter", fontsize=12, color="#555555", fontcolor="#2b2b2b", arrowsize=0.8, penwidth=1.2];
+  tel [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Plataforma de telefonía</B><BR/><FONT POINT-SIZE="13">CCaaS de Alloxentric</FONT>> ];
+  crm [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Consola del operador / CRM</B><BR/><FONT POINT-SIZE="13">Plataforma SaaS de Alloxentric</FONT>> ];
+  sup [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#0b4a63", penwidth=1.2, label=<<B>Supervisor de calidad</B>> ];
+  dev [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#0b4a63", penwidth=1.2, label=<<B>Equipo MLOps</B>> ];
+  subgraph cluster_za { label=<<B>ZONA A · TIEMPO REAL</B><BR/><FONT POINT-SIZE="12">vnet-rt 10.10.0.0/16 · Container Apps cae-rt · ingreso público solo HTTPS/WSS</FONT>>; style="rounded,filled"; fillcolor="#fdf2fa"; color="#c2349b"; penwidth=2; fontsize=16;
+  apim [shape=box, style="rounded,dashed,filled", fillcolor="#ffffff", fontcolor="#333333", color="#7a7a7a", penwidth=1.2, label=<<B>Azure API Management</B><BR/><FONT POINT-SIZE="13">Gateway WSS · cuotas · autenticación</FONT><BR/><FONT POINT-SIZE="13">[Diseño productivo: nivel Developer+]</FONT>> ];
+  api [shape=box, style="rounded,filled", fillcolor="#c2349b", fontcolor="#ffffff", color="#8e1f70", penwidth=2.5, label=<<B>API de inferencia</B><BR/><FONT POINT-SIZE="13">FastAPI · Python 3.12 · NumPy</FONT><BR/><FONT POINT-SIZE="13">1 vCPU / 2 GiB por réplica · réplicas 1–10</FONT><BR/><FONT POINT-SIZE="13">admisión 180 sesiones por réplica</FONT><BR/><FONT POINT-SIZE="13">p95 23 ms con 180 llamadas</FONT><BR/><FONT POINT-SIZE="13">modelo aprobado dentro de la imagen</FONT>> ];
+    { rank=same; apim; api; }
+  }
+  subgraph cluster_fr { label=<<B>FRONTERA · UNA SOLA VÍA</B>>; style="rounded,filled"; fillcolor="#fff8e6"; color="#d49a00"; fontsize=15;
+  sb [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>Azure Service Bus</B><BR/><FONT POINT-SIZE="13">cola call-closed · nivel Basic</FONT><BR/><FONT POINT-SIZE="13">solo Entra ID (sin claves)</FONT><BR/><FONT POINT-SIZE="13">API = Sender · batch = Receiver</FONT>> ];
+  }
+  subgraph cluster_zb { label=<<B>ZONA B · BATCH</B><BR/><FONT POINT-SIZE="12">vnet-batch 10.20.0.0/16 · Container Apps cae-batch · SIN ingreso público · sin peering con zona A</FONT>>; style="rounded,filled"; fillcolor="#eef7f1"; color="#2e8b57"; penwidth=2; fontsize=16;
+  worker [shape=box, style="rounded,filled", fillcolor="#c2349b", fontcolor="#ffffff", color="#8e1f70", penwidth=2.5, label=<<B>Worker post-llamada</B><BR/><FONT POINT-SIZE="13">Container Apps Job · Python 3.12</FONT><BR/><FONT POINT-SIZE="13">explicación + auditoría</FONT>> ];
+  train [shape=box, style="rounded,filled", fillcolor="#c2349b", fontcolor="#ffffff", color="#8e1f70", penwidth=2.5, label=<<B>Pipeline de entrenamiento causal</B><BR/><FONT POINT-SIZE="13">Container Apps Job · 2 vCPU</FONT><BR/><FONT POINT-SIZE="13">DoWhy + EconML · refutación</FONT><BR/><FONT POINT-SIZE="13">control de calidad: error ATE ≤ 0,05</FONT>> ];
+    { rank=same; worker; train; }
+  }
+  subgraph cluster_data { label=<<B>DATOS · Azure Blob Storage UK South</B><BR/><FONT POINT-SIZE="12">TLS ≥ 1.2 · solo HTTPS · sin claves compartidas · sin acceso público</FONT>>; style="rounded,filled"; fillcolor="#f1f5f9"; color="#46617a"; fontsize=15;
+  rec [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>recordings</B><BR/><FONT POINT-SIZE="13">grabaciones · retención 30 días</FONT><BR/><FONT POINT-SIZE="13">acceso por User Delegation SAS</FONT>> ];
+  aud [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>audit</B><BR/><FONT POINT-SIZE="13">explicaciones y auditoría</FONT>> ];
+  reg [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>model-registry</B><BR/><FONT POINT-SIZE="13">versiones + SHA-256 + métricas</FONT>> ];
+    { rank=same; rec; aud; reg; }
+  }
+  aoai [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#14b29f", penwidth=1.2, label=<<B>Azure OpenAI</B><BR/><FONT POINT-SIZE="13">[Opcional · respaldo por plantilla]</FONT>> ];
+  tr [shape=box, style="rounded,filled", fillcolor="#f7f7f7", color="#999999", fontcolor="#222222", label=<<B>TRANSVERSAL (ambas zonas, identidades separadas)</B><BR/><FONT POINT-SIZE="12">Key Vault (RBAC): token API y clave de seudónimos · Container Registry sin usuario admin: 2 imágenes<BR/>Log Analytics: logs JSON y métricas · 3 identidades administradas (api, batch, test) con mínimo privilegio<BR/><I>Private Endpoints: diseño productivo</I></FONT>>];
+  { rank=same; tel; crm; sup; dev; }
+  tel -> apim [style=solid, label=<Audio PCM16 + contexto<BR/>WSS · TLS 1.2+> ];
+  apim -> api [style=dashed, label=<WSS> ];
+  tel -> api [style=dotted, label=<PoC: ingreso HTTPS/WSS<BR/>de Container Apps> ];
+  api -> crm [style=solid, label=<Diagnóstico en vivo<BR/>WSS · JSON> ];
+  sup -> api [style=solid, label=<POST /v1/recordings/…/access<BR/>HTTPS> ];
+  api -> sb [style=solid, label=<call.closed (sin audio, seudónimo)<BR/>AMQP · TLS · no bloqueante> ];
+  sb -> worker [style=solid, label=<AMQP · TLS> ];
+  worker -> aud [style=solid, label=<HTTPS · escribe> ];
+  worker -> aoai [style=solid, label=<HTTPS · identidad<BR/>administrada> ];
+  train -> reg [style=solid, label=<Publica versión<BR/>aprobada · HTTPS> ];
+  api -> rec [style=dashed, label=<Emite SAS: solo lectura<BR/>spr=https · 5 min> ];
+  reg -> dev [style=dashed, label=<Promoción: verifica SHA-256<BR/>→ commit → CI → imagen nueva> , constraint=false];
+  dev -> api [style=solid, label=<Despliega revisión inmutable> ];
+  aoai -> tr [style=invis ];
+  subgraph cluster_legend { label=<<B>Leyenda</B>>; fontsize=14; color="#bbbbbb"; style="rounded";
+    lg0 [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#888888", fontsize=12, label="Persona"];
+    lg1 [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#888888", fontsize=12, label="Sistema externo"];
+    lg2 [shape=box, style="rounded,filled", fillcolor="#c2349b", fontcolor="#ffffff", color="#888888", fontsize=12, label="Contenedor implementado"];
+    lg3 [shape=box, style="rounded,filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#888888", fontsize=12, label="Almacén de datos"];
+    lg4 [shape=box, style="rounded,dashed,filled", fillcolor="#ffffff", fontcolor="#333333", color="#888888", fontsize=12, label="Diseño productivo (no en la PoC)"];
+    lg5 [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#888888", fontsize=12, label="Servicio opcional"];
+    lg0 -> lg1 -> lg2 -> lg3 -> lg4 -> lg5 [style=invis];
+  }
+}

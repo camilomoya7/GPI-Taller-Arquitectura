@@ -1,0 +1,36 @@
+........................................................................ [ 63%]
+..........................................                               [100%]
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.4-final-0 _______________
+
+Name                                              Stmts   Miss Branch BrPart  Cover   Missing
+---------------------------------------------------------------------------------------------
+libs\voxfeatures\voxfeatures\__init__.py              3      0      0      0   100%
+libs\voxfeatures\voxfeatures\prosody.py              78      0      8      0   100%
+services\batch_pipeline\pipeline\entry.py            18      5      6      2    71%   21-22, 25-27
+services\batch_pipeline\pipeline\explain.py          25      0      4      0   100%
+services\batch_pipeline\pipeline\registry.py         27      0      0      0   100%
+services\batch_pipeline\pipeline\synth_audio.py      37      1      4      1    95%   48
+services\batch_pipeline\pipeline\synthetic.py        49      0      8      0   100%
+services\batch_pipeline\pipeline\train.py           124     14     14      0    88%   270-283
+services\batch_pipeline\pipeline\worker.py           47      2     10      2    93%   80, 101
+services\inference_api\app\config.py                 25      0      0      0   100%
+services\inference_api\app\events.py                 35      4      4      1    87%   40-43
+services\inference_api\app\main.py                  112      1     10      1    98%   61
+services\inference_api\app\model_store.py            42      0     10      0   100%
+services\inference_api\app\privacy.py                14      0      4      0   100%
+services\inference_api\app\sas.py                    41      0      6      0   100%
+services\inference_api\app\scm_runtime.py            74      0     16      0   100%
+services\inference_api\app\stream.py                 84      3     12      3    94%   39, 43, 82
+services\inference_api\app\telemetry.py              39      1      6      1    96%   54
+services\inference_api\app\ws_handler.py            106      1     24      1    98%   52, 123->128
+---------------------------------------------------------------------------------------------
+TOTAL                                               980     32    146     12    96%
+
+2 empty files skipped.
+Coverage JSON written to file ../../../cov_114.json
+114 passed in 340.00s (0:05:40)
+All checks passed!
+Average complexity: A (2.6601941747572817)
+
+[exited with code 0]

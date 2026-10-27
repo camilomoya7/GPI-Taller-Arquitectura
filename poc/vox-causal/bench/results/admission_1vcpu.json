@@ -1,0 +1,28 @@
+[
+  {
+    "streams": 180,
+    "seconds_audio_per_call": 20,
+    "inferences": 7020,
+    "p50_ms": 6.05,
+    "p95_ms": 23.14,
+    "p99_ms": 46.93,
+    "max_ms": 79.89,
+    "pct_under_200ms": 100.0,
+    "errors": {},
+    "wall_s": 21.8
+  },
+  {
+    "streams": 400,
+    "seconds_audio_per_call": 20,
+    "inferences": 7020,
+    "p50_ms": 8.61,
+    "p95_ms": 59.36,
+    "p99_ms": 104.34,
+    "max_ms": 121.19,
+    "pct_under_200ms": 100.0,
+    "errors": {
+      "closed_1013": 220
+    },
+    "wall_s": 21.6
+  }
+]

@@ -1,0 +1,60 @@
+# Copiar a  .github/workflows/vox-causal-ci.yml  en la RAÍZ del repositorio
+# (GitHub solo ejecuta workflows ubicados ahí).
+name: vox-causal-ci
+
+on:
+  push:
+    paths: ["poc/vox-causal/**", ".github/workflows/vox-causal-ci.yml"]
+  pull_request:
+    paths: ["poc/vox-causal/**", ".github/workflows/vox-causal-ci.yml"]
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: poc/vox-causal
+
+jobs:
+  calidad:
+    name: Lint, complejidad, pruebas y cobertura
+    runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - name: Dependencias (API + batch + pruebas)
+        run: |
+          pip install -r services/inference_api/requirements.txt -r services/batch_pipeline/requirements.txt
+          pip install ./libs/voxfeatures pytest pytest-cov pytest-asyncio httpx ruff radon
+      - name: Lint (ruff)
+        run: ruff check .
+      - name: Complejidad ciclomática (radon, falla si hay funciones de grado D o peor)
+        run: |
+          radon cc -s -a services libs
+          test -z "$(radon cc -n D services libs)"
+      - name: Pruebas de arquitectura (aislamiento estricto batch ↔ API)
+        run: pytest -q tests/architecture
+      - name: Pruebas unitarias, integración y batch con cobertura
+        run: pytest -q --cov --cov-report=xml --cov-report=term --cov-fail-under=85
+      - uses: actions/upload-artifact@v4
+        with: { name: coverage, path: poc/vox-causal/coverage.xml }
+      - name: SonarCloud (deuda técnica) — se ejecuta solo si existe el secreto SONAR_TOKEN
+        if: ${{ env.SONAR_TOKEN != '' }}
+        uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          projectBaseDir: poc/vox-causal
+
+  imagenes:
+    name: Construcción de imágenes (zonas separadas)
+    runs-on: ubuntu-latest
+    needs: calidad
+    steps:
+      - uses: actions/checkout@v4
+      - name: Imagen API (camino caliente)
+        run: docker build -f services/inference_api/Dockerfile -t vox-inference-api:ci .
+      - name: Imagen batch (camino frío)
+        run: docker build -f services/batch_pipeline/Dockerfile -t vox-batch:ci .
+      - name: Tamaño de imágenes
+        run: docker images --format '{{.Repository}}:{{.Tag}} {{.Size}}' | grep -E 'vox-(inference-api|batch)'

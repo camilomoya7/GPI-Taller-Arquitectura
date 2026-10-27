@@ -1,0 +1,8 @@
+b180_1.log: {"streams": 180, "seconds_audio_per_call": 20, "inferences": 7020, "p50_ms": 531.63, "p95_ms": 912.1, "p99_ms": 1043.65, "max_ms": 1162.59, "pct_under_200ms": 15.93, "errors": {}, "wall_s": 21.9}
+b180_2.log: {"streams": 180, "seconds_audio_per_call": 20, "inferences": 7020, "p50_ms": 33.62, "p95_ms": 89.82, "p99_ms": 112.45, "max_ms": 132.07, "pct_under_200ms": 100.0, "errors": {}, "wall_s": 21.9}
+rep_180_1.log: {"streams": 180, "seconds_audio_per_call": 20, "inferences": 7020, "p50_ms": 75.25, "p95_ms": 524.0, "p99_ms": 616.61, "max_ms": 735.14, "pct_under_200ms": 62.56, "errors": {}, "wall_s": 21.9}
+rep_180_2.log: {"streams": 180, "seconds_audio_per_call": 20, "inferences": 7020, "p50_ms": 1904.77, "p95_ms": 2827.19, "p99_ms": 3062.97, "max_ms": 3254.86, "pct_under_200ms": 17.51, "errors": {}, "wall_s": 23.5}
+rep_180_3.log: {"streams": 180, "seconds_audio_per_call": 20, "inferences": 7020, "p50_ms": 27.68, "p95_ms": 62.79, "p99_ms": 94.43, "max_ms": 116.66, "pct_under_200ms": 100.0, "errors": {}, "wall_s": 21.9}
+rep_100_1.log: {"streams": 100, "seconds_audio_per_call": 20, "inferences": 3900, "p50_ms": 12.77, "p95_ms": 32.03, "p99_ms": 42.51, "max_ms": 54.13, "pct_under_200ms": 100.0, "errors": {}, "wall_s": 21.0}
+rep_100_2.log: {"streams": 100, "seconds_audio_per_call": 20, "inferences": 3900, "p50_ms": 13.48, "p95_ms": 31.19, "p99_ms": 40.63, "max_ms": 51.83, "pct_under_200ms": 100.0, "errors": {}, "wall_s": 21.0}
+rep_100_3.log: {"streams": 100, "seconds_audio_per_call": 20, "inferences": 3900, "p50_ms": 12.73, "p95_ms": 31.0, "p99_ms": 38.12, "max_ms": 56.16, "pct_under_200ms": 100.0, "errors": {}, "wall_s": 21.1}

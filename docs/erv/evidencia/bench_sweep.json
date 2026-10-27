@@ -1,0 +1,40 @@
+[
+  {
+    "streams": 100,
+    "seconds_audio_per_call": 20,
+    "inferences": 3900,
+    "p50_ms": 61.67,
+    "p95_ms": 609.95,
+    "p99_ms": 768.34,
+    "max_ms": 906.12,
+    "pct_under_200ms": 71.92,
+    "errors": {},
+    "wall_s": 21.1
+  },
+  {
+    "streams": 180,
+    "seconds_audio_per_call": 20,
+    "inferences": 7020,
+    "p50_ms": 694.51,
+    "p95_ms": 1716.52,
+    "p99_ms": 1975.28,
+    "max_ms": 2083.51,
+    "pct_under_200ms": 20.71,
+    "errors": {},
+    "wall_s": 22.7
+  },
+  {
+    "streams": 250,
+    "seconds_audio_per_call": 20,
+    "inferences": 7020,
+    "p50_ms": 23.49,
+    "p95_ms": 57.26,
+    "p99_ms": 79.55,
+    "max_ms": 103.21,
+    "pct_under_200ms": 100.0,
+    "errors": {
+      "closed_1013": 70
+    },
+    "wall_s": 22.1
+  }
+]

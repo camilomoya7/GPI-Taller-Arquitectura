@@ -1,0 +1,38 @@
+digraph G {
+  graph [fontname="Inter", rankdir=TB, splines=spline, nodesep=0.7, ranksep=1.0,
+         pad=0.4, label=<<B>C4 Nivel 1 — Contexto — Vox-Causal AI (Alloxentric SpA)</B>>, labelloc=t, fontsize=26, bgcolor="white", newrank=true,
+         compound=true];
+  node [fontname="Inter", fontsize=15, margin="0.22,0.12"];
+  edge [fontname="Inter", fontsize=12, color="#555555", fontcolor="#2b2b2b", arrowsize=0.8, penwidth=1.2];
+  cliente [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#0b4a63", penwidth=1.2, label=<<B>Cliente que llama</B><BR/><FONT POINT-SIZE="13">Su voz se analiza para detectar estrés</FONT><BR/><FONT POINT-SIZE="13">Se le informa al inicio de la llamada</FONT>> ];
+  operador [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#0b4a63", penwidth=1.2, label=<<B>Operador del contact center</B><BR/><FONT POINT-SIZE="13">Recibe causa raíz y acción sugerida</FONT><BR/><FONT POINT-SIZE="13">Su voz NO se analiza (EU AI Act)</FONT>> ];
+  supervisor [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#0b4a63", penwidth=1.2, label=<<B>Supervisor de calidad</B><BR/><FONT POINT-SIZE="13">Revisa explicaciones post-llamada</FONT><BR/><FONT POINT-SIZE="13">Escucha grabaciones con SAS</FONT>> ];
+  mlops [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#0b4a63", penwidth=1.2, label=<<B>Equipo Data Science / MLOps</B><BR/><FONT POINT-SIZE="13">Entrena, aprueba y promueve</FONT><BR/><FONT POINT-SIZE="13">modelos causales</FONT>> ];
+  tel [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Plataforma de telefonía (CCaaS)</B><BR/><FONT POINT-SIZE="13">Sistema existente de Alloxentric</FONT><BR/><FONT POINT-SIZE="13">Audio de la llamada y eventos de</FONT><BR/><FONT POINT-SIZE="13">contexto: espera, transferencias</FONT>> ];
+  crm [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Consola del operador / CRM</B><BR/><FONT POINT-SIZE="13">Plataforma SaaS de Alloxentric</FONT><BR/><FONT POINT-SIZE="13">Contexto del cliente: facturación,</FONT><BR/><FONT POINT-SIZE="13">antigüedad, contacto repetido</FONT>> ];
+  vox [shape=box, style="rounded,filled", fillcolor="#c2349b", fontcolor="#ffffff", color="#8e1f70", penwidth=2.5, label=<<B>Vox-Causal AI</B><BR/><FONT POINT-SIZE="13">Motor de inferencia causal y análisis</FONT><BR/><FONT POINT-SIZE="13">prosódico en tiempo real</FONT><BR/><FONT POINT-SIZE="13">Python 3.12 · FastAPI · DoWhy / EconML</FONT><BR/><FONT POINT-SIZE="13">Azure UK South</FONT><BR/><FONT POINT-SIZE="13">[SISTEMA EN FOCO]</FONT>> ];
+  aoai [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#14b29f", penwidth=1.2, label=<<B>Azure OpenAI</B><BR/><FONT POINT-SIZE="13">Redacta la explicación post-llamada</FONT><BR/><FONT POINT-SIZE="13">Opcional: sin acceso → plantilla</FONT><BR/><FONT POINT-SIZE="13">NO decide la causa raíz</FONT>> ];
+  entra [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Microsoft Entra ID</B><BR/><FONT POINT-SIZE="13">Identidades administradas</FONT><BR/><FONT POINT-SIZE="13">Firma de SAS de delegación</FONT>> ];
+  mon [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Azure Monitor · Log Analytics</B><BR/><FONT POINT-SIZE="13">Telemetría, latencia y auditoría</FONT>> ];
+  { rank=same; cliente; operador; supervisor; mlops; }
+  { rank=same; tel; crm; }
+  { rank=same; aoai; entra; mon; }
+  cliente -> tel [style=solid, label=<Habla durante<BR/>la llamada> ];
+  operador -> tel [style=solid, label=<Atiende<BR/>la llamada> ];
+  tel -> vox [style=solid, label=<Audio PCM16 del canal cliente<BR/>+ eventos de contexto<BR/>WSS · TLS 1.2+> ];
+  crm -> vox [style=solid, label=<Contexto del cliente<BR/>WSS · JSON> ];
+  vox -> crm [style=solid, label=<Causa raíz, riesgo y acción<BR/>cada 500 ms · WSS · JSON> , constraint=false];
+  crm -> operador [style=solid, label=<Muestra el diagnóstico<BR/>en vivo> , constraint=false];
+  supervisor -> vox [style=solid, label=<Lee explicaciones; pide grabaciones<BR/>HTTPS · SAS solo lectura 5 min> ];
+  mlops -> vox [style=solid, label=<Entrena, aprueba y promueve<BR/>Git · CI/CD> ];
+  vox -> aoai [style=solid, label=<Solicita redacción<BR/>HTTPS · identidad administrada> ];
+  vox -> entra [style=solid, label=<Tokens OAuth 2.0 y<BR/>claves de delegación> ];
+  vox -> mon [style=solid, label=<Logs JSON, métricas<BR/>y auditoría> ];
+  subgraph cluster_legend { label=<<B>Leyenda</B>>; fontsize=14; color="#bbbbbb"; style="rounded";
+    lg0 [shape=box, style="rounded,filled", fillcolor="#0b4a63", fontcolor="#ffffff", color="#888888", fontsize=12, label="Persona"];
+    lg1 [shape=box, style="rounded,filled", fillcolor="#c2349b", fontcolor="#ffffff", color="#888888", fontsize=12, label="Sistema en foco"];
+    lg2 [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#888888", fontsize=12, label="Sistema externo"];
+    lg3 [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#888888", fontsize=12, label="Servicio externo opcional"];
+    lg0 -> lg1 -> lg2 -> lg3 [style=invis];
+  }
+}

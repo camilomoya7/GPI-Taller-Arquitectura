@@ -1,0 +1,61 @@
+digraph G {
+  graph [fontname="Inter", rankdir=TB, splines=spline, nodesep=0.5, ranksep=0.7,
+         pad=0.4, label=<<B>C4 Nivel 3 — Componentes — Pipeline batch (camino frío)</B>>, labelloc=t, fontsize=26, bgcolor="white", newrank=true,
+         compound=true];
+  node [fontname="Inter", fontsize=15, margin="0.22,0.12"];
+  edge [fontname="Inter", fontsize=12, color="#555555", fontcolor="#2b2b2b", arrowsize=0.8, penwidth=1.2];
+  sb [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>Service Bus</B><BR/><FONT POINT-SIZE="13">cola call-closed</FONT>> ];
+  subgraph cluster_c { label=<<B>Contenedor: Pipeline batch</B><BR/><FONT POINT-SIZE="12">Container Apps Jobs · Python 3.12 · DoWhy · EconML · zona B sin ingreso público</FONT>>; style="rounded,filled"; fillcolor="#f3faf5"; color="#2e8b57"; penwidth=2; fontsize=16;
+  entry [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>1 · Punto de entrada</B><BR/><FONT POINT-SIZE="13">entry.py · JOB_MODE</FONT><BR/><FONT POINT-SIZE="13">worker · train · bench</FONT>> ];
+    subgraph cluster_train { label=<<B>Entrenamiento causal (JOB_MODE=train)</B>>; style="rounded"; color="#7fb89a"; fontsize=13;
+  syn [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>2 · Generador SCM</B><BR/><FONT POINT-SIZE="13">synthetic.py</FONT><BR/><FONT POINT-SIZE="13">3 causas · 3 confusores · mediador</FONT><BR/><FONT POINT-SIZE="13">ATE verdadero por do(T)</FONT>> ];
+  est [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>3 · Identificación y estimación</B><BR/><FONT POINT-SIZE="13">train.py · DoWhy (backdoor)</FONT><BR/><FONT POINT-SIZE="13">EconML LinearDML</FONT>> ];
+  ref [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>4 · Refutación</B><BR/><FONT POINT-SIZE="13">placebo · causa común aleatoria</FONT><BR/><FONT POINT-SIZE="13">subconjunto 80 %</FONT>> ];
+  feat [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#14b29f", penwidth=1.2, label=<<B>libs/voxfeatures</B><BR/><FONT POINT-SIZE="13">misma librería que la API</FONT>> ];
+  cal [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>5 · Calibración prosódica</B><BR/><FONT POINT-SIZE="13">voz sintética etiquetada</FONT><BR/><FONT POINT-SIZE="13">MAE 0,041 · R² 0,969</FONT>> ];
+  gate [shape=hexagon, style="rounded,filled", fillcolor="#f2a900", fontcolor="#1b1b1b", color="#f2a900", penwidth=1.2, label=<<B>6 · Control de calidad</B><BR/><FONT POINT-SIZE="13">error ATE ≤ 0,05 y refutaciones OK</FONT><BR/><FONT POINT-SIZE="13">medido: 0,0022 · 0,0040 · 0,0006</FONT>> ];
+  regc [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>7 · Registro de modelos</B><BR/><FONT POINT-SIZE="13">registry.py</FONT><BR/><FONT POINT-SIZE="13">versión + SHA-256 + métricas</FONT>> ];
+  rej [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>rejected/</B><BR/><FONT POINT-SIZE="13">no se publica</FONT>> ];
+      { rank=same; syn; feat; }
+      { rank=same; est; cal; }
+      { rank=same; regc; rej; }
+    }
+    subgraph cluster_wrk { label=<<B>Post-llamada (JOB_MODE=worker)</B>>; style="rounded"; color="#7fb89a"; fontsize=13;
+  wk [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>8 · Worker</B><BR/><FONT POINT-SIZE="13">worker.py</FONT><BR/><FONT POINT-SIZE="13">consume eventos · escribe auditoría</FONT>> ];
+  ex [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>9 · Explicador</B><BR/><FONT POINT-SIZE="13">explain.py</FONT><BR/><FONT POINT-SIZE="13">Azure OpenAI o plantilla</FONT>> ];
+    }
+  }
+  aoai [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#14b29f", penwidth=1.2, label=<<B>Azure OpenAI</B><BR/><FONT POINT-SIZE="13">[opcional]</FONT>> ];
+  aud [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>Blob audit</B>> ];
+  reg [shape=cylinder, style="filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#46617a", penwidth=1.2, label=<<B>Blob model-registry</B>> ];
+  promote [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#1f6fb2", penwidth=1.2, label=<<B>10 · Promoción</B><BR/><FONT POINT-SIZE="13">promote_model.py</FONT><BR/><FONT POINT-SIZE="13">verifica SHA-256</FONT>> ];
+  ci [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Git + CI</B><BR/><FONT POINT-SIZE="13">lint · pruebas · cobertura ≥ 85 %</FONT><BR/><FONT POINT-SIZE="13">construcción de imágenes</FONT>> ];
+  apiimg [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#8a8a8a", penwidth=1.2, label=<<B>Imagen de la API</B><BR/><FONT POINT-SIZE="13">(zona A)</FONT>> ];
+  { rank=same; reg; promote; ci; apiimg; }
+  { rank=same; aoai; aud; }
+  entry -> syn [style=solid ];
+  entry -> wk [style=solid ];
+  syn -> est [style=solid, label=<datos con efecto conocido> ];
+  est -> ref [style=solid, label=<estimación> ];
+  ref -> gate [style=solid ];
+  feat -> cal [style=solid, label=<rasgos> ];
+  cal -> gate [style=solid ];
+  gate -> regc [style=solid, label=<aprueba> ];
+  gate -> rej [style=solid, label=<rechaza> ];
+  sb -> wk [style=solid, label=<AMQP · TLS · Receiver> ];
+  wk -> ex [style=solid, label=<evento> ];
+  ex -> aoai [style=solid, label=<HTTPS · identidad<BR/>administrada> ];
+  wk -> aud [style=solid, label=<HTTPS> ];
+  regc -> reg [style=solid, label=<HTTPS> ];
+  reg -> promote [style=solid ];
+  promote -> ci [style=solid, label=<commit> ];
+  ci -> apiimg [style=solid, label=<imagen inmutable> ];
+  subgraph cluster_legend { label=<<B>Leyenda</B>>; fontsize=14; color="#bbbbbb"; style="rounded";
+    lg0 [shape=box, style="rounded,filled", fillcolor="#1f6fb2", fontcolor="#ffffff", color="#888888", fontsize=12, label="Componente"];
+    lg1 [shape=box, style="rounded,filled", fillcolor="#f2a900", fontcolor="#1b1b1b", color="#888888", fontsize=12, label="Control de calidad"];
+    lg2 [shape=box, style="rounded,filled", fillcolor="#14b29f", fontcolor="#ffffff", color="#888888", fontsize=12, label="Librería compartida"];
+    lg3 [shape=box, style="rounded,filled", fillcolor="#8a8a8a", fontcolor="#ffffff", color="#888888", fontsize=12, label="Externo"];
+    lg4 [shape=box, style="rounded,filled", fillcolor="#e9eef3", fontcolor="#1b2b38", color="#888888", fontsize=12, label="Almacén / artefacto"];
+    lg0 -> lg1 -> lg2 -> lg3 -> lg4 [style=invis];
+  }
+}
